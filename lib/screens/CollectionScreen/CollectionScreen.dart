@@ -1,7 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'commons/Header.dart';
 
-class CollectionScreen extends StatelessWidget {
+class CollectionScreen extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => CollectionScreenState();
+}
+
+class CollectionScreenState extends State<CollectionScreen> {
 
   static const ingredient = "Vodka";
 

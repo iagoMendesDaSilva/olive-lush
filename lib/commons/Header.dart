@@ -8,7 +8,7 @@ class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: new EdgeInsets.fromLTRB(0, 25, 0, 0),
+      padding: new EdgeInsets.only(top:25.0, bottom: 20.0),
       child:  Text(text! , style: Theme.of(context).textTheme.titleLarge),
     );
   }

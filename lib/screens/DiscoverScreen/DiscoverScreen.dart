@@ -1,11 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:olive_lush/commons/commons.dart';
 import 'package:olive_lush/strings.dart' as StringResource;
 
-import '../../models/GlassType.dart';
 import 'commons/DrinkItem.dart';
+import '../../models/GlassType.dart';
 
 class DiscoverScreen extends StatefulWidget {
   @override
@@ -13,7 +12,7 @@ class DiscoverScreen extends StatefulWidget {
 }
 
 class DiscoverScreenState extends State<DiscoverScreen> {
-  var jsonList;
+  var drinks;
 
   void getDrinks() async {
     try {
@@ -21,7 +20,7 @@ class DiscoverScreenState extends State<DiscoverScreen> {
           'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita');
       if (response.statusCode == 200) {
         setState(() {
-          jsonList = response.data['drinks'] as List;
+          drinks = response.data['drinks'] as List;
         });
       }
     } catch (w) {
@@ -44,16 +43,16 @@ class DiscoverScreenState extends State<DiscoverScreen> {
               context: context,
               removeTop: true,
               child: ListView.builder(
-                  itemCount: jsonList == null ? 0 : jsonList.length,
+                  itemCount: drinks == null ? 0 : drinks.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Padding(
                         padding: EdgeInsets.only(top: 7.0, bottom: 7.0),
                         child: DrinkItem(
-                          name: jsonList[index]['strDrink'],
-                          description: jsonList[index]['strInstructions'],
-                          glassType: getGlassType(jsonList[index]['strGlass']),
-                          difficult: jsonList[index]['strCategory'],
-                          img: jsonList[index]['strDrinkThumb'],
+                          name: drinks[index]['strDrink'],
+                          description: drinks[index]['strInstructions'],
+                          glassType: getGlassType(drinks[index]['strGlass']),
+                          ingredients:getIngredients(drinks[index]),
+                          img: drinks[index]['strDrinkThumb'],
                         ));
                   })))
     ]);
@@ -64,4 +63,16 @@ class DiscoverScreenState extends State<DiscoverScreen> {
         ? GlassType(StringResource.strings['glass_cocktail']!, Icons.local_bar)
         : GlassType(StringResource.strings['glass_champagne']!, Icons.wine_bar);
   }
+
+  getIngredients(drink) {
+    List<String> ingredients = [];
+
+    drink.forEach((key, value) {
+      if (key.startsWith('strIngredient') && value != null)
+        ingredients.add(value);
+    });
+
+    return ingredients;
+  }
+
 }

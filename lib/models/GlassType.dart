@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 
 class GlassType {
-  late String type;
+  late String label;
   late IconData icon;
 
-  GlassType(String type, IconData icon){
-    this.type = type;
+  GlassType(String label, IconData icon){
+    this.label = label;
     this.icon = icon;
   }
 }

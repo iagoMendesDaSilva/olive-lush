@@ -8,6 +8,5 @@ Map<String, String> strings = {
   "header_collection_p2": " Drinks!",
   "glass_cocktail": "Cocktail Glass",
   "glass_champagne": "Champagne Flute",
-
   // Add more key-value pairs here as needed
 };

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:olive_lush/strings.dart' as StringResource;
-import 'package:olive_lush/colors.dart' as AppColors;
+import 'package:olive_lush/utils/strings.dart' as StringResource;
 
 class Header extends StatelessWidget {
   final String text;
@@ -18,7 +17,7 @@ class Header extends StatelessWidget {
             children: <TextSpan>[
               TextSpan(
                 text: text,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(color: AppColors.primary),
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Theme.of(context).primaryColor),
               ),
               TextSpan(
                 text: StringResource.strings['header_collection_p2'],

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:olive_lush/colors.dart' as AppColors;
+import 'package:olive_lush/utils/colors.dart' as AppColors;
 
 final textTheme = TextTheme(
   titleLarge: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),

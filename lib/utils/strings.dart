@@ -12,4 +12,5 @@ Map<String, String> strings = {
   "alcoholic": "Alcoholic",
   "non_alcoholic":"Non Alcoholic",
   "optional_alcoholic":"Optional Alcohol",
+  "search_drink": "Search for a drink",
 };

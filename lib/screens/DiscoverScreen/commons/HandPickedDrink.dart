@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:olive_lush/models/Alcoholic.dart';
-import 'package:olive_lush/models/GlassType.dart';
 
 class HandPickedDrink extends StatelessWidget {
   final String name;

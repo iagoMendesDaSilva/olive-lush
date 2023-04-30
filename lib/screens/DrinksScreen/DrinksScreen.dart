@@ -73,7 +73,7 @@ class ListDrinks extends StatelessWidget {
                   child: DrinkItem(
                     name: drinks[index]['strDrink'],
                     description: drinks[index]['strInstructions'],
-                    glassType: DrinkFormat.getGlassType(drinks[index]['strGlass']),
+                    alcoholic: DrinkFormat.getAlcoholic(drinks[index]['strAlcoholic']),
                     img: drinks[index]['strDrinkThumb'],
                   ));
             }));

@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:olive_lush/models/Alcoholic.dart';
 import 'package:olive_lush/models/GlassType.dart';
 import 'package:olive_lush/utils/colors.dart' as AppColors;
 
 class DrinkItem extends StatelessWidget {
   final String name;
   final String description;
-  final GlassType glassType;
+  final Alcoholic alcoholic;
   final String img;
 
   const DrinkItem(
       {super.key,
       required this.name,
       required this.description,
-      required this.glassType,
+      required this.alcoholic,
       required this.img});
 
   @override
@@ -21,7 +22,7 @@ class DrinkItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.0),
         child: Container(
             height: 105.0,
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.background,
             child: Row(children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(20.0),
@@ -29,22 +30,7 @@ class DrinkItem extends StatelessWidget {
                   img,
                   width: 105,
                   height: double.infinity,
-                  errorBuilder: (c, o, s) =>
-                      Image.asset('assets/placeholder.jpg'),
-                  loadingBuilder: (BuildContext context, Widget child,
-                      ImageChunkEvent? loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return Container(
-                        color: AppColors.grayLight,
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes!
-                                : null,
-                          ),
-                        ));
-                  },
+                  errorBuilder: (c, o, s) => Image.asset('assets/placeholder.jpg'),
                 ),
               ),
               Expanded(
@@ -57,7 +43,7 @@ class DrinkItem extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               HeaderInfo(name: name, description: description),
-                              FooterInfo(glassType: glassType),
+                              FooterInfo(alcoholic: alcoholic),
                             ]),
                       )))
             ])));
@@ -93,20 +79,22 @@ class HeaderInfo extends StatelessWidget {
 }
 
 class FooterInfo extends StatelessWidget {
-  final GlassType glassType;
+  final Alcoholic alcoholic;
 
-  const FooterInfo({super.key, required this.glassType});
+  const FooterInfo({super.key, required this.alcoholic});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(
-          glassType.icon,
-          color: AppColors.gray,
-          size: 20,
+        Opacity(
+          opacity: 0.5,
+          child: Icon(
+            alcoholic.icon,
+            size: 20,
+          ),
         ),
-        Text(glassType.label, style: Theme.of(context).textTheme.labelSmall),
+        Text(alcoholic.label, style: Theme.of(context).textTheme.labelSmall),
       ],
     );
   }

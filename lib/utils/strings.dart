@@ -9,4 +9,7 @@ Map<String, String> strings = {
   "glass_cocktail": "Cocktail Glass",
   "glass_champagne": "Champagne Flute",
   "empty_list": "No Drinks Found",
+  "alcoholic": "Alcoholic",
+  "non_alcoholic":"Non Alcoholic",
+  "optional_alcoholic":"Optional Alcohol",
 };

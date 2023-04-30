@@ -52,7 +52,7 @@ class DiscoverScreenState extends State<DiscoverScreen> {
                   : HandPickedDrink(
                       name: drink['strDrink'],
                       description: drink['strInstructions'],
-                      glassType: DrinkFormat.getGlassType(drink['strGlass']),
+                      alcoholic: DrinkFormat.getAlcoholic(drink['strAlcoholic']),
                       img: drink['strDrinkThumb'],
                     ))
     ]);

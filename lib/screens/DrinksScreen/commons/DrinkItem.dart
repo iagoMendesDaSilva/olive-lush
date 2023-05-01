@@ -31,6 +31,20 @@ class DrinkItem extends StatelessWidget {
                   width: 105,
                   height: double.infinity,
                   errorBuilder: (c, o, s) => Image.asset('assets/placeholder.jpg'),
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return Container(
+                      width: 105,
+                      alignment: Alignment.center,
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    );
+                  },
                 ),
               ),
               Expanded(

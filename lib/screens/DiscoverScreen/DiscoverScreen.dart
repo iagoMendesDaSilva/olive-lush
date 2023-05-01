@@ -4,8 +4,8 @@ import 'package:get_it/get_it.dart';
 import 'package:olive_lush/commons/commons.dart';
 import 'package:olive_lush/utils/strings.dart' as StringResource;
 
+import '../../models/Drink.dart';
 import '../../services/api.dart';
-import '../../utils/drinkFormat.dart';
 import 'commons/HandPickedDrink.dart';
 
 class DiscoverScreen extends StatefulWidget {
@@ -14,7 +14,7 @@ class DiscoverScreen extends StatefulWidget {
 }
 
 class DiscoverScreenState extends State<DiscoverScreen> {
-  var drink;
+  late Drink drink;
   var loading = true;
 
   void getDrink() async {
@@ -22,8 +22,11 @@ class DiscoverScreenState extends State<DiscoverScreen> {
       final Dio dio = GetIt.instance<Dio>();
       var response = await dio.get(RANDOM_DRINK_URL);
       if (response.statusCode == 200) {
+        final List<dynamic> drinksJson = response.data['drinks'];
+        final List<Drink> drinksConverted =
+            drinksJson.map((drinkJson) => Drink.fromJson(drinkJson)).toList();
         setState(() {
-          drink = response.data['drinks'][0];
+          drink = drinksConverted[0];
         });
       }
     } catch (w) {
@@ -47,14 +50,12 @@ class DiscoverScreenState extends State<DiscoverScreen> {
       Expanded(
           child: loading
               ? Load()
-              : drink == null
-                  ? EmptyList()
-                  : HandPickedDrink(
-                      name: drink['strDrink'],
-                      description: drink['strInstructions'],
-                      alcoholic: DrinkFormat.getAlcoholic(drink['strAlcoholic']),
-                      img: drink['strDrinkThumb'],
-                    ))
+              : HandPickedDrink(
+                  name: drink.name,
+                  description: drink.instructions,
+                  alcoholic: drink.alcoholic,
+                  img: drink.drinkThumb,
+                ))
     ]);
   }
 }

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:olive_lush/models/Ingredient.dart';
 import 'package:olive_lush/utils/strings.dart' as StringResource;
 
 class Header extends StatelessWidget {
-  final String text;
+  final Ingredient? ingredient;
 
-  const Header({super.key, required this.text});
+  const Header({super.key, required this.ingredient});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class Header extends StatelessWidget {
             style: Theme.of(context).textTheme.titleLarge,
             children: <TextSpan>[
               TextSpan(
-                text: text,
+                text: ingredient?.ingredient,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Theme.of(context).primaryColor),
               ),
               TextSpan(

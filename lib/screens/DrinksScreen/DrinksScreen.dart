@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -6,8 +7,8 @@ import 'package:get_it/get_it.dart';
 import 'package:olive_lush/commons/commons.dart';
 import 'package:olive_lush/utils/strings.dart' as StringResource;
 
+import '../../models/Drink.dart';
 import '../../services/api.dart';
-import '../../utils/drinkFormat.dart';
 import 'commons/DrinkItem.dart';
 import 'commons/Search.dart';
 
@@ -17,7 +18,7 @@ class DrinksScreen extends StatefulWidget {
 }
 
 class DrinksScreenState extends State<DrinksScreen> {
-  var drinks = [];
+  List<Drink> drinks = [];
   var loading = true;
   var searchText = '';
   Timer? _debounce;
@@ -40,8 +41,11 @@ class DrinksScreenState extends State<DrinksScreen> {
       final Dio dio = GetIt.instance<Dio>();
       var response = await dio.get(INITIAL_SEARCH_URL);
       if (response.statusCode == 200) {
+        final List<dynamic> drinksJson = response.data['drinks'];
+        final List<Drink> drinksConverted =
+            drinksJson.map((drinkJson) => Drink.fromJson(drinkJson)).toList();
         setState(() {
-          drinks = response.data['drinks'] as List;
+          drinks = drinksConverted;
         });
       }
     } catch (w) {
@@ -57,8 +61,12 @@ class DrinksScreenState extends State<DrinksScreen> {
       final Dio dio = GetIt.instance<Dio>();
       var response = await dio.get(SEARCH_URL + searchText);
       if (response.statusCode == 200) {
+        print(response.data);
+        final List<dynamic> drinksJson = response.data['drinks'];
+        final List<Drink> drinksConverted =
+            drinksJson.map((drinkJson) => Drink.fromJson(drinkJson)).toList();
         setState(() {
-          drinks = response.data['drinks'] as List;
+          drinks = drinksConverted;
         });
       }
     } catch (w) {
@@ -98,7 +106,7 @@ class DrinksScreenState extends State<DrinksScreen> {
 }
 
 class ListDrinks extends StatelessWidget {
-  final List drinks;
+  final List<Drink> drinks;
 
   const ListDrinks({super.key, required this.drinks});
 
@@ -113,11 +121,10 @@ class ListDrinks extends StatelessWidget {
               return Padding(
                   padding: EdgeInsets.only(top: 7.0, bottom: 7.0),
                   child: DrinkItem(
-                    name: drinks[index]['strDrink'],
-                    description: drinks[index]['strInstructions'],
-                    alcoholic:
-                        DrinkFormat.getAlcoholic(drinks[index]['strAlcoholic']),
-                    img: drinks[index]['strDrinkThumb'],
+                    name: drinks[index].name,
+                    description: drinks[index].instructions,
+                    alcoholic: drinks[index].alcoholic,
+                    img: drinks[index].drinkThumb,
                   ));
             }));
   }

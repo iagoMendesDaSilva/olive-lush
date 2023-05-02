@@ -1,13 +1,14 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:olive_lush/commons/commons.dart';
-import 'package:olive_lush/utils/strings.dart' as StringResource;
 import 'package:olive_lush/screens/DrinksScreen/DrinksViewModel.dart';
+import 'package:olive_lush/utils/strings.dart' as StringResource;
 
 import '../../di.dart';
 import 'commons/Search.dart';
-import 'commons/DrinkItem.dart';
 import '../../models/Drink.dart';
+import '../../commons/ListDrinks.dart';
 
 class DrinksScreen extends StatefulWidget {
   @override
@@ -79,30 +80,5 @@ class DrinksScreenState extends State<DrinksScreen> {
                   ? EmptyList()
                   : ListDrinks(drinks: drinks))
     ]);
-  }
-}
-
-class ListDrinks extends StatelessWidget {
-  final List<Drink> drinks;
-
-  const ListDrinks({super.key, required this.drinks});
-
-  @override
-  Widget build(BuildContext context) {
-    return MediaQuery.removePadding(
-        context: context,
-        removeTop: true,
-        child: ListView.builder(
-            itemCount: drinks.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Padding(
-                  padding: EdgeInsets.only(top: 7.0, bottom: 7.0),
-                  child: DrinkItem(
-                    name: drinks[index].name,
-                    description: drinks[index].instructions,
-                    alcoholic: drinks[index].alcoholic,
-                    img: drinks[index].drinkThumb,
-                  ));
-            }));
   }
 }

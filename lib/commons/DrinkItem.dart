@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:olive_lush/models/Alcoholic.dart';
-import 'package:olive_lush/models/GlassType.dart';
-import 'package:olive_lush/utils/colors.dart' as AppColors;
 
 class DrinkItem extends StatelessWidget {
   final String name;

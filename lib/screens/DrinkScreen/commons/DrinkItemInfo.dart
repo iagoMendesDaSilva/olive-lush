@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:olive_lush/models/Alcoholic.dart';
-import 'package:olive_lush/models/GlassType.dart';
-import 'package:olive_lush/utils/colors.dart' as AppColors;
 import 'package:olive_lush/utils/strings.dart' as StringResource;
 
+import 'BackArrow.dart';
+import 'HeaderInfo.dart';
+import 'CategoryInfo.dart';
+import 'IngredientList.dart';
 import '../../../models/Drink.dart';
 
 class DrinkItemInfo extends StatelessWidget {
@@ -44,7 +45,7 @@ class DrinkItemInfo extends StatelessWidget {
                   },
                 ),
               ),
-              BackButton(),
+              BackArrow(),
             ],
           )),
       Expanded(
@@ -66,200 +67,6 @@ class DrinkItemInfo extends StatelessWidget {
               ingredients: drink.ingredients, measures: drink.measures),
         ]),
       )))
-    ]);
-  }
-}
-
-class IngredientList extends StatelessWidget {
-  final List<String> ingredients;
-  final List<String> measures;
-
-  const IngredientList(
-      {super.key, required this.ingredients, required this.measures});
-
-  @override
-  Widget build(BuildContext context) {
-    return MediaQuery.removePadding(
-        context: context,
-        removeTop: true,
-        child: ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: ingredients.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Padding(
-                  padding: EdgeInsets.only(top: 7.0, bottom: 7.0),
-                  child: IngredientItem(
-                      index: index + 1,
-                      ingredient: ingredients[index],
-                      measure: measures[index]));
-            }));
-  }
-}
-
-class IngredientItem extends StatelessWidget {
-  final int index;
-  final String ingredient;
-  final String measure;
-
-  const IngredientItem(
-      {super.key,
-      required this.index,
-      required this.ingredient,
-      required this.measure});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-      Container(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(color: Theme.of(context).colorScheme.primary),
-        ),
-        child: CircleAvatar(
-          backgroundColor: Colors.transparent,
-          child: Text(
-            index.toString(),
-            textAlign: TextAlign.center,
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium
-                ?.copyWith(color: Theme.of(context).colorScheme.primary),
-          ),
-        ),
-      ),
-      SizedBox(width: 10),
-      Text(
-        ingredient,
-        style: Theme.of(context).textTheme.bodyMedium,
-      ),
-      SizedBox(width: 8),
-      Text(
-        measure,
-        style: Theme.of(context).textTheme.bodySmall,
-      )
-    ]);
-  }
-}
-
-class BackButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: () {
-          Navigator.pop(context);
-        },
-        child: Padding(
-          padding: EdgeInsets.only(top: 36, left: 16),
-          child: Container(
-              alignment: Alignment.center,
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: Theme.of(context).colorScheme.surface,
-              ),
-              child: Center(child: Icon(Icons.keyboard_arrow_left, size: 30),)),
-        ));
-  }
-}
-
-class HeaderInfo extends StatelessWidget {
-  final String name;
-  final String description;
-
-  const HeaderInfo({super.key, required this.name, required this.description});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-            padding: EdgeInsets.only(bottom: 10),
-            child: Text(name,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.titleMedium)),
-        Text(
-          description,
-          style: Theme.of(context).textTheme.bodySmall,
-        )
-      ],
-    );
-  }
-}
-
-class CategoryInfo extends StatelessWidget {
-  final Alcoholic alcoholic;
-  final String category;
-  final GlassType glass;
-
-  const CategoryInfo(
-      {super.key,
-      required this.alcoholic,
-      required this.category,
-      required this.glass});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.symmetric(vertical: 20),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(100),
-          child: Container(
-            height: 60,
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 12),
-            color: Theme.of(context).colorScheme.primary,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ItemCategoryInfo(label: alcoholic.label, icon: alcoholic.icon),
-                Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: VerticalDivider(
-                      thickness: 1,
-                      color: AppColors.background,
-                    )),
-                ItemCategoryInfo(label: category, icon: Icons.category),
-                Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: VerticalDivider(
-                      thickness: 1,
-                      color: AppColors.background,
-                    )),
-                ItemCategoryInfo(label: glass.label, icon: Icons.wine_bar),
-              ],
-            ),
-          ),
-        ));
-  }
-}
-
-class ItemCategoryInfo extends StatelessWidget {
-  final String label;
-  final IconData icon;
-
-  const ItemCategoryInfo({
-    super.key,
-    required this.label,
-    required this.icon,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Icon(icon, size: 20, color: AppColors.background),
-      Text(
-        label,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: Theme.of(context).textTheme.titleSmall!.copyWith(
-              color: AppColors.background,
-            ),
-      ),
     ]);
   }
 }

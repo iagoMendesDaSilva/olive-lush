@@ -1,11 +1,10 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:olive_lush/commons/commons.dart';
 import 'package:olive_lush/utils/strings.dart' as StringResource;
 
+import '../../di.dart';
+import 'DiscoverViewModel.dart';
 import '../../models/Drink.dart';
-import '../../services/api.dart';
 import 'commons/HandPickedDrink.dart';
 
 class DiscoverScreen extends StatefulWidget {
@@ -14,33 +13,20 @@ class DiscoverScreen extends StatefulWidget {
 }
 
 class DiscoverScreenState extends State<DiscoverScreen> {
-  late Drink drink;
+  Drink? drink;
   var loading = true;
-
-  void getDrink() async {
-    try {
-      final Dio dio = GetIt.instance<Dio>();
-      var response = await dio.get(RANDOM_DRINK_URL);
-      if (response.statusCode == 200) {
-        final List<dynamic> drinksJson = response.data['drinks'];
-        final List<Drink> drinksConverted =
-            drinksJson.map((drinkJson) => Drink.fromJson(drinkJson)).toList();
-        setState(() {
-          drink = drinksConverted[0];
-        });
-      }
-    } catch (w) {
-      print(w);
-    }
-    setState(() {
-      loading = false;
-    });
-  }
+  late DiscoverViewModel _viewModel;
 
   @override
   void initState() {
     super.initState();
-    getDrink();
+    _viewModel = getIt<DiscoverViewModel>();
+    _viewModel.getRandomDrink().then((drinks) {
+      setState(() {
+        if (drinks.isNotEmpty) drink = drinks[0];
+        loading = false;
+      });
+    });
   }
 
   @override
@@ -50,12 +36,14 @@ class DiscoverScreenState extends State<DiscoverScreen> {
       Expanded(
           child: loading
               ? Load()
-              : HandPickedDrink(
-                  name: drink.name,
-                  description: drink.instructions,
-                  alcoholic: drink.alcoholic,
-                  img: drink.drinkThumb,
-                ))
+              : drink == null
+                  ? EmptyList()
+                  : HandPickedDrink(
+                      name: drink!.name,
+                      description: drink!.instructions,
+                      alcoholic: drink!.alcoholic,
+                      img: drink!.drinkThumb,
+                    ))
     ]);
   }
 }

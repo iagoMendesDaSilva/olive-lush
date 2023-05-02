@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:olive_lush/utils/colors.dart' as AppColors;
+import 'package:olive_lush/di.dart';
 import 'package:olive_lush/screens/screens.dart';
-import 'package:olive_lush/services/NetworkModule.dart';
-import 'package:olive_lush/utils/theme.dart';
 import 'package:olive_lush/utils/strings.dart' as StringResource;
+import 'package:olive_lush/utils/theme.dart';
 
 void main() async {
-  await NetworkModule.init();
+  setupDependencies();
   runApp(MyApp());
 }
 

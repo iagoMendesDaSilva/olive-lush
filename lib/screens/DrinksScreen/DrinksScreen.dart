@@ -1,16 +1,13 @@
 import 'dart:async';
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:olive_lush/commons/commons.dart';
 import 'package:olive_lush/utils/strings.dart' as StringResource;
+import 'package:olive_lush/screens/DrinksScreen/DrinksViewModel.dart';
 
-import '../../models/Drink.dart';
-import '../../services/api.dart';
-import 'commons/DrinkItem.dart';
+import '../../di.dart';
 import 'commons/Search.dart';
+import 'commons/DrinkItem.dart';
+import '../../models/Drink.dart';
 
 class DrinksScreen extends StatefulWidget {
   @override
@@ -22,71 +19,51 @@ class DrinksScreenState extends State<DrinksScreen> {
   var loading = true;
   var searchText = '';
   Timer? _debounce;
-
-  void _onSearchTextChanged(String text) {
-    setState(() {
-      searchText = text;
-    });
-    _debounce?.cancel();
-    _debounce = Timer(Duration(seconds: 1), () {
-      if (searchText.isEmpty)
-        getDrinks();
-      else
-        searchDrinks();
-    });
-  }
-
-  void getDrinks() async {
-    try {
-      final Dio dio = GetIt.instance<Dio>();
-      var response = await dio.get(INITIAL_SEARCH_URL);
-      if (response.statusCode == 200) {
-        final List<dynamic> drinksJson = response.data['drinks'];
-        final List<Drink> drinksConverted =
-            drinksJson.map((drinkJson) => Drink.fromJson(drinkJson)).toList();
-        setState(() {
-          drinks = drinksConverted;
-        });
-      }
-    } catch (w) {
-      print(w);
-    }
-    setState(() {
-      loading = false;
-    });
-  }
-
-  void searchDrinks() async {
-    try {
-      final Dio dio = GetIt.instance<Dio>();
-      var response = await dio.get(SEARCH_URL + searchText);
-      if (response.statusCode == 200) {
-        print(response.data);
-        final List<dynamic> drinksJson = response.data['drinks'];
-        final List<Drink> drinksConverted =
-            drinksJson.map((drinkJson) => Drink.fromJson(drinkJson)).toList();
-        setState(() {
-          drinks = drinksConverted;
-        });
-      }
-    } catch (w) {
-      print(w);
-    }
-    setState(() {
-      loading = false;
-    });
-  }
+  late DrinksViewModel _viewModel;
 
   @override
   void initState() {
     super.initState();
-    getDrinks();
+    _viewModel = getIt<DrinksViewModel>();
+    _viewModel.getDrinks().then((data) {
+      setState(() {
+        drinks = data;
+        loading = false;
+      });
+    });
   }
 
   @override
   void dispose() {
     _debounce?.cancel();
     super.dispose();
+  }
+
+  void _onSearchTextChanged(String text) {
+    setState(() {
+      searchText = text;
+    });
+
+    _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 1000), () {
+      _getDrinks();
+    });
+  }
+
+  void _getDrinks() async {
+    if (searchText.isEmpty) {
+      _viewModel.getDrinks().then((data) {
+        setState(() {
+          drinks = data;
+        });
+      });
+    } else {
+      _viewModel.searchDrinks(searchText).then((data) {
+        setState(() {
+          drinks = data;
+        });
+      });
+    }
   }
 
   @override

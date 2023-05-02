@@ -23,6 +23,7 @@ class ListDrinks extends StatelessWidget {
                 padding: EdgeInsets.only(top: 7.0, bottom: 7.0),
                 child: useLargeItem
                     ? DrinkItemLarge(
+                        id: drinks[index].id,
                         name: drinks[index].name,
                         description: drinks[index].instructions,
                         alcoholic: drinks[index].alcoholic,
@@ -30,6 +31,7 @@ class ListDrinks extends StatelessWidget {
                       )
                     : DrinkItem(
                         name: drinks[index].name,
+                        id: drinks[index].id,
                         description: drinks[index].instructions,
                         alcoholic: drinks[index].alcoholic,
                         img: drinks[index].drinkThumb,

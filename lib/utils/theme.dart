@@ -6,6 +6,7 @@ final ThemeData light = ThemeData(
   colorScheme: ColorScheme.light(
     primary: AppColors.primary,
     background: AppColors.background,
+    surface: AppColors.scaffoldBackground,
   ),
   primaryColor: AppColors.primary,
   textTheme: Typography.textTheme.copyWith(
@@ -19,6 +20,7 @@ final ThemeData dark = ThemeData(
   colorScheme: ColorScheme.dark(
     primary: AppColors.primary,
     background: AppColors.backgroundDark,
+    surface: AppColors.scaffoldBackgroundDark,
   ),
   primaryColor: AppColors.primary,
   textTheme: Typography.textTheme.copyWith(

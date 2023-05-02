@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:olive_lush/models/Alcoholic.dart';
 
+import '../screens/DrinkScreen/DrinkScreen.dart';
+
 class DrinkItem extends StatelessWidget {
+  final String id;
   final String name;
   final String description;
   final Alcoholic alcoholic;
@@ -9,6 +12,7 @@ class DrinkItem extends StatelessWidget {
 
   const DrinkItem(
       {super.key,
+      required this.id,
       required this.name,
       required this.description,
       required this.alcoholic,
@@ -16,49 +20,60 @@ class DrinkItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-        borderRadius: BorderRadius.circular(20.0),
-        child: Container(
-            height: 105.0,
-            color: Theme.of(context).colorScheme.background,
-            child: Row(children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20.0),
-                child: Image.network(
-                  img,
-                  width: 105,
-                  height: double.infinity,
-                  errorBuilder: (c, o, s) => Image.asset('assets/placeholder.jpg'),
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) {
-                      return child;
-                    }
-                    return Container(
+    return GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => DrinkScreen(id: id,)),
+          );
+        },
+        child: ClipRRect(
+            borderRadius: BorderRadius.circular(20.0),
+            child: Container(
+                height: 105.0,
+                color: Theme.of(context).colorScheme.background,
+                child: Row(children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+                    child: Image.network(
+                      img,
                       width: 105,
-                      alignment: Alignment.center,
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                            : null,
-                      ),
-                    );
-                  },
-                ),
-              ),
-              Expanded(
-                  child: Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Container(
-                        height: double.infinity,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              HeaderInfo(name: name, description: description),
-                              FooterInfo(alcoholic: alcoholic),
-                            ]),
-                      )))
-            ])));
+                      height: double.infinity,
+                      errorBuilder: (c, o, s) =>
+                          Image.asset('assets/placeholder.jpg'),
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        }
+                        return Container(
+                          width: 105,
+                          alignment: Alignment.center,
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes!
+                                : null,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Expanded(
+                      child: Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Container(
+                            height: double.infinity,
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  HeaderInfo(
+                                      name: name, description: description),
+                                  FooterInfo(alcoholic: alcoholic),
+                                ]),
+                          )))
+                ]))));
   }
 }
 
@@ -78,7 +93,7 @@ class HeaderInfo extends StatelessWidget {
             child: Text(name,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.titleSmall)),
+                style: Theme.of(context).textTheme.titleMedium)),
         Text(
           description,
           style: Theme.of(context).textTheme.bodySmall,

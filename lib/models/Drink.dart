@@ -11,13 +11,13 @@ class Drink{
   final String? alternateName;
   final String? tags;
   final String? video;
-  final String? category;
+  final String category;
   final String? iba;
   final Alcoholic alcoholic;
-  final GlassType? glass;
+  final GlassType glass;
   final String instructions;
-  final Map<String, String?> ingredients;
-  final Map<String, String?> measures;
+  final List<String> ingredients;
+  final List<String> measures;
   final String drinkThumb;
   final String? imageSource;
   final String? imageAttribution;
@@ -45,17 +45,14 @@ class Drink{
   });
 
   factory Drink.fromJson(Map<String, dynamic> json) {
-    final ingredients = Map<String, String?>.fromIterable(
-      Iterable.generate(15, (i) => i + 1),
-      key: (i) => 'strIngredient$i',
-      value: (i) => json['strIngredient$i'],
-    );
 
-    final measures = Map<String, String?>.fromIterable(
-      Iterable.generate(15, (i) => i + 1),
-      key: (i) => 'strMeasure$i',
-      value: (i) => json['strMeasure$i'],
-    );
+    final ingredients = List<String>.generate(15,
+          (i) => '${json['strIngredient${i + 1}'] ?? ''}',
+    ).where((entry) => entry.trim().isNotEmpty).toList();
+
+    final measures = List<String>.generate(15,
+          (i) => '${json['strMeasure${i + 1}'] ?? ''}',
+    ).where((entry) => entry.trim().isNotEmpty).toList();
 
      convertAlcoholicType(type){
       switch (type.toLowerCase()) {

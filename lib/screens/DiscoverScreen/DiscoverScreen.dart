@@ -39,6 +39,7 @@ class DiscoverScreenState extends State<DiscoverScreen> {
               : drink == null
                   ? EmptyList()
                   : HandPickedDrink(
+                      id: drink!.id,
                       name: drink!.name,
                       description: drink!.instructions,
                       alcoholic: drink!.alcoholic,

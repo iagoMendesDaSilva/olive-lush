@@ -8,7 +8,7 @@ class BackArrow extends StatelessWidget {
           Navigator.pop(context);
         },
         child: Padding(
-          padding: EdgeInsets.only(top: 36, left: 16),
+          padding: EdgeInsets.only(top: 16, left: 16),
           child: Container(
               alignment: Alignment.center,
               width: 50,

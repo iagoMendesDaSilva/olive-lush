@@ -10,6 +10,7 @@ class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+        alignment: Alignment.centerLeft,
         padding: new EdgeInsets.fromLTRB(0, 25, 0, 0),
         child: RichText(
           text: TextSpan(

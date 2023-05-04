@@ -3,7 +3,7 @@ Map<String, String> strings = {
   "drinks": "Drinks",
   "collection": "Collection",
   "header_discover": "Raise Your Glass to Our Handpicked Drink!",
-  "header_drinks": "Get Ready to Sip and Discover Your Next Cocktail!",
+  "header_drinks": "Get Ready to Sip and Discover Your Next Drink!",
   "header_collection_p1": "Happy Hour a Collection of ",
   "header_collection_p2": " Drinks!",
   "glass_cocktail": "Cocktail Glass",

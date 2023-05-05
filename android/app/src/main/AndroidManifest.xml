@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.iago.olivelush.olive_lush">
+    package="com.iago.olivelush">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 

@@ -1,4 +1,4 @@
-package com.iago.olivelush.olive_lush
+package com.iago.olivelush
 
 import io.flutter.embedding.android.FlutterActivity
 
